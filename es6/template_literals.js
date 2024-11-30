@@ -1,0 +1,1 @@
+// Template literals allow you to create multi-line strings and to use string interpolation features to create strings. To add variables to strings, you just drop the variable in a template string and wrap it with ${ and }.
