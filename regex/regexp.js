@@ -1,3 +1,6 @@
+console.log(numeral(1000).format("0a")); // 1k
+console.log(numeral(1500000).format("0.0a")); // 1.5m
+
 //  /: Delimiters used to enclose the regex pattern (common in some programming languages like JavaScript).
 
 // Regular expressions, often shortened to "regex" or "regexp", are patterns that help programmers match, search, and replace text. Regular expressions are very powerful, but can be hard to read because they use special characters to make more complex, flexible matches.
@@ -76,6 +79,7 @@ let myRegexp = /<.*?>/g; // Change this line
 let res4 = text.match(myRegexp);
 console.log(res4);
 
+// [ '<h1>', '</h1>' ]
 // .*?:
 
 // .: Matches any single character (except a newline in most regex engines).
@@ -89,3 +93,97 @@ console.log(res4);
 
 // The closest character class in JavaScript to match the alphabet is \w. This shortcut is equal to [A-Za-z0-9_].
 // You can search for the opposite of the \w with \W
+
+/** 
+// 
+The key difference between the two regular expressions /[^0-9][A-Za-z]+\d*$/g and /^[A-Za-z]+\d*$/g lies in how they handle the placement and restrictions of digits in the string.
+
+1. /[^0-9][A-Za-z]+\d*$/g:
+[^0-9]: This means the first character must not be a digit. It doesn't restrict the position of digits elsewhere in the string, so digits can still appear after the first character or at the end.
+[A-Za-z]+: This matches one or more alphabetic characters after the initial non-digit character.
+\d*: This allows zero or more digits at the end of the string, but does not restrict digits between the alphabetic characters.
+The issue here is that the first part ([^0-9]) only ensures that the string does not start with a digit, but it doesn't enforce the absence of digits between letters. As a result, the regex will still match strings that have digits in the middle, as long as the string starts with a non-digit and ends with letters followed by optional digits.
+
+Example:
+
+javascript
+Copy code
+let username = "ab1bb5";
+let userCheck = /[^0-9][A-Za-z]+\d*$/g;
+console.log(userCheck.test(username)); // true
+This matches because the string starts with a letter (a), followed by some letters (b), and ends with digits (5), even though there are digits between the letters.
+
+2. /^[A-Za-z]+\d*$/g:
+^[A-Za-z]+: This means that the string must start with one or more alphabetic characters.
+\d*$: After the alphabetic characters, it allows zero or more digits at the end, but no digits are allowed in between the letters.
+Here, the key difference is that the pattern starts at the very beginning (^) and enforces that only alphabetic characters can appear at the start of the string, and if digits appear, they must only come after the alphabetic characters and not in between them.
+
+Example:
+
+javascript
+Copy code
+let username = "ab1bb5";
+let userCheck = /^[A-Za-z]+\d*$/g;
+console.log(userCheck.test(username)); // false
+This doesn't match because the string has digits between the letters (ab1), which the regex does not allow.
+
+Key Difference:
+/[^0-9][A-Za-z]+\d*$/g only ensures that the first character is not a digit, but it still allows digits to appear between alphabetic characters. It matches strings like "ab1bb5" because the middle digits do not break the pattern.
+
+/^[A-Za-z]+\d*$/g ensures that the string starts with only letters, and if digits appear, they must be at the end. This completely prohibits digits in the middle of the string, making it stricter about the positioning of digits.
+
+*/
+
+// You can search for whitespace using \s, which is a lowercase s. This pattern not only matches whitespace, but also carriage return, tab, form feed, and new line characters. You can think of it as similar to the character class [ \r\t\f\n\v].
+
+// You can specify the lower and upper number of patterns with quantity specifiers. Quantity specifiers are used with curly brackets ({ and }).
+
+// You can specify the possible existence of an element with a question mark, ?. This checks for zero or one of the preceding element. You can think of this symbol as saying the previous element is optional.
+
+let favWord = "favorite";
+let favRegex = /favou?rite/; // Change this line
+let res5 = favRegex.test(favWord);
+
+// https://www.regextutorial.org/positive-and-negative-lookahead-assertions.php#:~:text=Positive%20lookahead%3A,it%20simply%20rejects%20that%20match.
+
+//  lookahead is a type of assertion that allows you to match a pattern only if it is followed by another specific pattern, without including that following part in the match.
+
+/**
+Positive Lookahead: (?=...)
+Matches if the specified pattern ... exists after the current position.
+/ match (?=element) /
+
+if element follows match then it will be a match otherwise match will technically not be a match and will not be declared as a match. 
+
+* \$\d+(?=\sUSD)
+
+Negative Lookahead: (?!...)
+Matches if the specified pattern ... does not exist after the current position.
+
+* \w+(?![,.!?])
+
+ * 
+ */
+
+// ...................................................
+
+// Quantifiers in regular expressions specify how many instances of a character, group, or character class must be present in the input for a match.
+// Quantifiers are greedy by default, meaning they try to match as much as possible. Adding a ? after a quantifier makes it lazy, so it matches as little as possible.
+// *(zero or more matches),+,?(zero or one match),{n},{n,},{,n},{n,m}
+
+// ...................................................
+
+// capture groups are used to find repeated substrings
+// Capture groups are constructed by enclosing the regex pattern to be captured in parentheses.
+
+//  he substring matched by the group is saved to a temporary "variable", which can be accessed within the same regex using a backslash and the number of the capture group (e.g. \1). Capture groups are automatically numbered by the position of their opening parentheses (left to right), starting at 1.
+
+// The ^ anchor ensures the entire string matches the pattern from start to end, and extra characters at the start or end cause the match to fail.
+// Without ^, the pattern is more flexible, allowing the regex engine to find a match anywhere in the string, as long as it ends correctly with the specified pattern.
+
+let repeatNum = "100 100 100";
+let reRegex = /^(\d+) \1 \1$/; // Change this line
+let res6 = reRegex.test(repeatNum);
+
+let resm = repeatNum.match(reRegex);
+console.log(res6, resm);
