@@ -4,6 +4,8 @@ let result = myRegex.test(myString); // Change this line
 // After passing the challenge experiment with myString and see how the grouping works
 console.log(result);
 
+// let myRegex = /(Eleanor|Franklin) .*?Roosevelt/;
+
 // (Franklin|Eleanor)\s(\w\.?\s?)?Roosevelt
 
 // Fix the regex so that it checks for the names of Franklin Roosevelt or Eleanor Roosevelt in a case sensitive manner and it should make concessions for middle names.

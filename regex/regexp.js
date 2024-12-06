@@ -173,13 +173,24 @@ Matches if the specified pattern ... does not exist after the current position.
 
 // ...................................................
 
+// parentheses () in regular expressions are used to create capturing groups. Capturing groups allow you to extract specific parts of a matched string or reference them later in your code or replacement patterns.
 // capture groups are used to find repeated substrings
 // Capture groups are constructed by enclosing the regex pattern to be captured in parentheses.
 
-//  he substring matched by the group is saved to a temporary "variable", which can be accessed within the same regex using a backslash and the number of the capture group (e.g. \1). Capture groups are automatically numbered by the position of their opening parentheses (left to right), starting at 1.
+//  the substring matched by the group is saved to a temporary "variable", which can be accessed within the same regex using a backslash and the number of the capture group (e.g. \1). Capture groups are automatically numbered by the position of their opening parentheses (left to right), starting at 1.
 
 // The ^ anchor ensures the entire string matches the pattern from start to end, and extra characters at the start or end cause the match to fail.
 // Without ^, the pattern is more flexible, allowing the regex engine to find a match anywhere in the string, as long as it ends correctly with the specified pattern.
+
+/**
+ * Without anchors (^ and $):
+
+The regular expression can match patterns anywhere in the string. For example, if you use the regex (\d+) (\1) on the string "42 42 42", it will still match the first two occurrences of 42 because it just checks for the pattern, not the position in the string.
+The match would be valid if it finds "42 42" anywhere, regardless of whether it's at the beginning, middle, or end of the string.
+
+ * They force the regular expression to match the whole string, from start to finish.
+The combination of ^ and $ ensures that the string matches the exact pattern from start to end, so it won't match if there are any extra characters before or after the desired pattern.
+ */
 
 let repeatNum = "100 100 100";
 let reRegex = /^(\d+) \1 \1$/; // Change this line
@@ -187,3 +198,25 @@ let res6 = reRegex.test(repeatNum);
 
 let resm = repeatNum.match(reRegex);
 console.log(res6, resm);
+
+// Create Backreferences:
+
+// Capturing groups can be referenced using backreferences in the same regular expression (\1, \2, etc.).
+// They can also be used in replacement strings with $1, $2, etc., in methods like .replace()
+
+let str = "Code Camp";
+let regex = /(\w+)\s(\w+)/;
+let res7 = str.replace(regex, "$2 $1");
+
+console.log(res7); // Output: "Camp Code"
+
+// remove whitespaces
+
+let hello = "   Hello, World!  ";
+let wsRegex = /\s+/g; // Change this line
+let res8 = hello.replace(wsRegex, ""); // Change this line
+
+console.log(res8);
+console.log(hello.match(wsRegex));
+
+// /^\s+|\s+$/g
